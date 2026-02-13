@@ -1,9 +1,10 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from db import get_db, engine
+from sqlalchemy import create_engine
+from db import get_db,DATABASE_URL
+import os
 from models import Base
-
 app = FastAPI()
 
 #cors
@@ -15,6 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # to create database
+
+engine = create_engine(DATABASE_URL)
 Base.metadata.create_all(engine)
 
 @app.get("/")
